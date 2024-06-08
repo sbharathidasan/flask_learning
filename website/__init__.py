@@ -15,19 +15,8 @@ def create_app():
   from .auth import auth
   from .views import views
   from .models import User,Note
-  
-  login_manager=LoginManager()
-  login_manager.login_view='auth.signin'
-  login_manager.init_app(app)
-  @login_manager.user_loader
-  def load_user(id):
-     return User.query.get(int(id))
 
   app.register_blueprint(views,url_prefix='/')
   app.register_blueprint(auth,url_prefix='/')
   
   return app
-def create_database(app):
-    if not path.exists('website/' + DB_NAME):
-        db.create_all(app=app)
-        print('Created Database!')
